@@ -30,8 +30,7 @@ setup(
     packages=find_packages(),
     package_data={
         'opencc': [
-            'bin/*',
-            'data/*'
+            'win/*/*'
         ]
     },
     install_requires=['distribute'],

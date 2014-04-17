@@ -1,2 +1,1 @@
-recursive-include opencc/bin *
-recursive-include opencc/data *
+recursive-include opencc/win *

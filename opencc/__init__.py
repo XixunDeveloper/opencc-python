@@ -1,16 +1,33 @@
-# -*- coding: utf8 -*-
+	# -*- coding: utf8 -*-
 import os
 import subprocess
+import platform
 
 from version import __version__
 
+SYSTEM = platform.system()
 _package_dir = os.path.abspath(os.path.dirname(__file__))
 
 #: path to data folder
-DATA_PATH = os.path.join(_package_dir, 'data')
+DATA_PATH = ''
 
 #: path to bin folder
-BIN_PATH = os.path.join(_package_dir, 'bin')
+BIN_PATH = ''
+if ("Darwin" == SYSTEM):
+    OPENCC_HOME = '/usr/local/Cellar/opencc'
+    if(not os.path.exists(OPENCC_HOME)):
+    	print "Please install opencc with brew"
+    else:
+    	version_folders = [ f for f in os.listdir(OPENCC_HOME) if os.path.isdir(os.path.join(OPENCC_HOME,f)) ]
+    	if(len(version_folders) > 0):
+    		version_folder = os.path.join(OPENCC_HOME, version_folders[0])
+    		BIN_PATH = os.path.join(version_folder, "bin")
+    		DATA_PATH = os.path.join(os.path.join(version_folder,"share"), "opencc")
+elif ("Windows" == SYSTEM):
+    BIN_PATH = os.path.join(os.path.join(_package_dir, 'win'), 'bin')
+    DATA_PATH = os.path.join(os.path.join(_package_dir, 'win'), 'data')
+
+   
 
 #: build-in configurations
 BUILDIN_CONFIGS = {
@@ -19,6 +36,8 @@ BUILDIN_CONFIGS = {
     'mix2t': os.path.join(DATA_PATH, 'mix2zht.ini'),
     'mix2s': os.path.join(DATA_PATH, 'mix2zhs.ini'),
 }
+
+
 
 class OpenCC(object):
     """Interface for convert Traditional Chinese to Simplified Chinese or vice
